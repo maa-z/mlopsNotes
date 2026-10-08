@@ -1,0 +1,20 @@
+%pip install "sagemaker==2.248.1"
+
+import sagemaker
+
+print(sagemaker.__version__)
+
+session = sagemaker.Session()
+
+role = sagemaker.get_execution_role()
+
+print(session)
+print(role)
+
+
+------------------------------------------------------------------------
+get caller id and execution role
+
+import boto3
+sts = boto3.client("sts")
+print(sts.get_caller_identity())

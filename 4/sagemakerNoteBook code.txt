@@ -1,0 +1,45 @@
+from sagemaker.estimator import Estimator
+from sagemaker.inputs import TrainingInput
+import sagemaker
+from sagemaker.estimator import Estimator
+from sagemaker.inputs import TrainingInput
+
+image_uri = (
+    "956076205820.dkr.ecr.ap-south-1.amazonaws.com/"
+    "animal-classifier-train:7a2e5a9"
+)
+
+
+session = sagemaker.Session()
+
+role = sagemaker.get_execution_role()
+
+estimator = Estimator(
+    image_uri=image_uri,
+    role=role,
+    instance_type="ml.g5.xlarge",      
+    instance_count=1,
+    output_path="s3://maaz-animal-classifier-v3/model-artifacts/",
+    sagemaker_session=session,
+    base_job_name="animal-classifier"
+)
+
+
+train_input = TrainingInput(
+    s3_data="s3://maaz-animal-classifier-v3/data/raw/"
+)
+estimator.fit({
+    "training": train_input
+})
+
+
+
+
+
+
+
+
+
+
+
+
